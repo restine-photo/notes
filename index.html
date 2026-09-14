@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conversation framework — study notes</title>
+<meta name="description" content="Study notes on the three-level conversation framework, key terms, and how to ask better questions. From Vanessa Van Edwards on The Diary of a CEO.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #fbfaf7;
+    --ink: #1f2430;
+    --ink-soft: #5b6270;
+    --line: #dcd9d1;
+    --tier1: #e9eef2;
+    --tier2: #cfdbe0;
+    --tier3: #9fb8bf;
+    --accent: #2f6f7a;
+    --accent-ink: #1d4b53;
+    --measure: 68ch;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Jost", "Futura", "Century Gothic", system-ui, sans-serif;
+    font-size: 17.5px;
+    line-height: 1.6;
+  }
+  a { color: var(--accent); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+  header, main, footer { width: min(var(--measure), 100% - 2.5rem); margin-inline: auto; }
+  header { padding: 4rem 0 2rem; }
+  h1, h2, h3 { font-family: "Josefin Sans", "Futura", "Century Gothic", sans-serif; font-weight: 600; line-height: 1.15; margin: 0; }
+  h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); letter-spacing: 0.01em; text-transform: none; }
+  h2 { font-size: 1.8rem; margin-top: 4rem; margin-bottom: 1rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+  h3 { font-size: 1.2rem; margin-top: 1.75rem; margin-bottom: .4rem; }
+  p { margin: 0 0 1rem; }
+  .lede { color: var(--ink-soft); font-size: 1.05rem; max-width: 50ch; margin-top: 1rem; }
+  .source { font-size: .9rem; color: var(--ink-soft); }
+
+  nav.toc { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: .5rem .9rem; font-size: .95rem; }
+  nav.toc a { text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+  nav.toc a:hover { border-color: var(--accent); }
+
+  /* The stage: the one memorable element */
+  .stage { list-style: none; margin: 2.5rem 0 1rem; padding: 0; }
+  .stage li {
+    padding: 1.4rem 1.6rem 1.6rem;
+    border-radius: 6px 6px 0 0;
+    margin-inline: auto;
+  }
+  .stage .l3 { background: var(--tier3); width: 70%; }
+  .stage .l2 { background: var(--tier2); width: 85%; }
+  .stage .l1 { background: var(--tier1); width: 100%; border-radius: 6px; }
+  .stage h3 { margin: 0 0 .25rem; font-size: 1.35rem; }
+  .stage .goal { font-size: .95rem; color: var(--ink-soft); margin-bottom: .75rem; }
+  .stage ul { margin: 0; padding-left: 1.1rem; }
+  .stage li li { padding: 0; width: auto; background: none; margin: .25rem 0; border-radius: 0; }
+  .stage .note { font-size: .9rem; color: var(--ink-soft); margin: .6rem 0 0; }
+  @media (max-width: 600px) {
+    .stage .l3, .stage .l2 { width: 100%; }
+  }
+
+  ul, ol { padding-left: 1.3rem; }
+  li { margin: .35rem 0; }
+  li::marker { color: var(--accent); }
+
+  dl { margin: 0; }
+  dt { font-weight: 600; margin-top: 1.2rem; }
+  dd { margin: .2rem 0 0; color: var(--ink); }
+
+  .aside {
+    border-left: 3px solid var(--accent);
+    padding: .6rem 1rem;
+    margin: 1.5rem 0;
+    background: #f1f5f6;
+    font-size: .98rem;
+  }
+  .aside p:last-child { margin-bottom: 0; }
+
+  details { margin: .5rem 0; }
+  summary { cursor: pointer; font-weight: 600; }
+  summary::marker { color: var(--accent); }
+
+  .archetypes { display: grid; gap: .9rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); padding: 0; list-style: none; margin: 1rem 0; }
+  .archetypes li { border: 1px solid var(--line); border-radius: 6px; padding: 1rem 1.1rem; margin: 0; }
+  .archetypes strong { display: block; font-family: "Josefin Sans", "Futura", "Century Gothic", sans-serif; font-size: 1.1rem; margin-bottom: .3rem; }
+  .archetypes span { display: block; font-size: .93rem; color: var(--ink-soft); }
+
+  .formula { font-family: "Josefin Sans", "Futura", "Century Gothic", sans-serif; font-size: 1.35rem; margin: .8rem 0 1rem; color: var(--accent-ink); }
+  .formula em { font-style: italic; }
+
+  footer { padding: 4rem 0 3rem; color: var(--ink-soft); font-size: .9rem; border-top: 1px solid var(--line); margin-top: 4rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Conversation is a<br>three-level climb</h1>
+  <p class="lede">Study notes on the framework, vocabulary, and question craft from Vanessa Van Edwards’ conversation with Steven Bartlett about her book <em>Conversation: How to Connect with Anyone and Make Every Interaction Count</em>.</p>
+  <p class="source">Paraphrased from the episode transcript. The underlying level model comes from psychologist Dan McAdams.</p>
+  <nav class="toc" aria-label="Contents">
+    <a href="#framework">The framework</a>
+    <a href="#questions">Asking better questions</a>
+    <a href="#answering">Answering better</a>
+    <a href="#terms">Key terms</a>
+    <a href="#archetypes">Five archetypes</a>
+    <a href="#mechanics">Mechanics</a>
+    <a href="#exit">Ending a conversation</a>
+  </nav>
+</header>
+
+<main>
+
+<h2 id="framework">The framework</h2>
+<p>Connection moves through three levels, in order. Skip a level and it feels invasive. Stay stuck at the bottom and it feels dead. Each level has a job and three questions that do it.</p>
+
+<ol class="stage" aria-label="Three levels of conversation">
+  <li class="l3">
+    <h3>Level 3 — Self-narrative</h3>
+    <p class="goal">The story someone tells themselves about themselves. Reserve for your most important people.</p>
+    <ul>
+      <li>Are you lucky?</li>
+      <li>Do you believe in fate?</li>
+      <li>What book, movie, or TV character are you most like — and why?</li>
+      <li>What would the title of your memoir be?</li>
+    </ul>
+    <p class="note">Going here too early creates vulnerability regret. The point of this level is predicting behavior, and you probably won’t agree with what you hear.</p>
+  </li>
+  <li class="l2">
+    <h3>Level 2 — Personal concerns</h3>
+    <p class="goal">Motivations, goals, worries. Your job is dream building: help someone voice a private ambition or worry.</p>
+    <ul>
+      <li>What have you always wanted to learn?</li>
+      <li>What’s your biggest goal right now? (anchor it: birthday, new year, new quarter)</li>
+      <li>Your signature question — built from whatever you love talking about</li>
+    </ul>
+    <p class="note">You’re at level 2 when you know what gets someone up in the morning and what keeps them up at night.</p>
+  </li>
+  <li class="l1">
+    <h3>Level 1 — General traits</h3>
+    <p class="goal">Basic facts, treated as a treasure hunt for story rather than a fact check. A fact is a stop sign; a story is a doorway.</p>
+    <ul>
+      <li>What was the highlight of your day? (swap for “how are you”)</li>
+      <li>Working on anything exciting? / What’s your personal passion project? (swap for “what do you do”)</li>
+      <li>Any fun plans coming up? (plants the idea of a shared future)</li>
+    </ul>
+    <p class="note">Also: the numbers question. Ask “how long have you two been together?” then pivot to the story behind the number.</p>
+  </li>
+</ol>
+
+<div class="aside">
+  <p>In her speed-networking study of 500 people, “what was the highlight of your day?” ranked first and “what do you do?” ranked last. “What’s your story?” split the room — people loved it or hated it — because it’s level 3 energy in a level 1 moment.</p>
+</div>
+
+<h2 id="questions">Asking better questions</h2>
+<ol>
+  <li><strong>Swap scripted questions for story questions.</strong> “How are you,” “what do you do,” and “been busy?” put the brain on autopilot. Hunt for story or emotion instead.</li>
+  <li><strong>Don’t go too deep too fast.</strong> Do the levels in order. Deep questions from a stranger trigger fight-or-flight.</li>
+  <li><strong>Search for good, but accept real emotion.</strong> If someone’s having a hard time, “do you want to talk about it?” beats forced positivity.</li>
+  <li><strong>Build information gaps.</strong> Words like <em>weirdest, most surprising, craziest, most embarrassing</em> open a gap the brain wants closed.</li>
+  <li><strong>Always ask why.</strong> After any self-descriptive answer, the traits someone names next are the real answer.</li>
+  <li><strong>Interview with behavioral questions.</strong> “What would your last manager say your biggest weakness is?” and “tell me about the <em>most recent</em> project you managed” beat rehearsed answers and cherry-picked examples.</li>
+  <li><strong>Adapt the questions to your setting.</strong> A taxi driver asks “heading anywhere exciting?” After a talk, ask “what did you learn?”</li>
+  <li><strong>Have a plan, stay dynamic.</strong> If a question lights someone up, stay there. Don’t tick down a checklist.</li>
+  <li><strong>Treat questions as bids.</strong> If someone doesn’t take the bid, they aren’t your person today. Back off without offense.</li>
+</ol>
+
+<h2 id="answering">Answering better</h2>
+<h3>“What do you do?”</h3>
+<p class="formula">I do <em>what</em> for <em>who</em> by <em>how</em>.</p>
+<p>Lead with a plain label so the listener can place you, then add the hook. Vague or jargon-heavy answers cost the listener “conversation calories.” Multi-hyphenates can say it straight: daylight as X, moonlight as Y.</p>
+
+<h3>The questions you always get</h3>
+<p>Write down the questions you’re asked most often. Prepare answers that work as gifts to the other person — an anecdote that invites “me too” or “how did you get into that?” — instead of dead ends.</p>
+
+<h2 id="terms">Key terms</h2>
+<dl>
+  <dt>Conversational narcissist</dt>
+  <dd>Someone who walks themselves up all three levels while you listen. Usually rooted in insecurity or fear of silence. The fix is assertive curiosity (what, how, why, when) — or asking outright, “is it my turn yet?”</dd>
+
+  <dt>Entertainer vs. appreciator</dt>
+  <dd>Entertainers get energy from being heard; ask them questions. Appreciators get energy from listening; tell them stories. Figure out which one your boss or VIP is before you open your mouth.</dd>
+
+  <dt>Dream building / dream killing</dt>
+  <dd>Helping someone voice a goal vs. shutting it down. Smart people often dream-kill by accident with logic — fact-checking instead of gut-checking.</dd>
+
+  <dt>Information gap / conversational confetti</dt>
+  <dd>Curiosity-triggering language that makes a conversation compete with the feed. Small bursts of excitement that keep someone off their phone.</dd>
+
+  <dt>Redemption vs. contamination narrative</dt>
+  <dd>“Hardship made me stronger” vs. “hardship happened to me and I can’t get past it.” Narrative hints leak through superlatives: <em>always, never, just my luck</em>. Redemption narratives correlate with better health, longevity, and relationships, and they can be rewritten through conversation.</dd>
+
+  <dt>Internal vs. external locus of control</dt>
+  <dd>Feeling you drive your own outcomes vs. getting your worth from outside validation. Bartlett’s image: a bird vs. a roller coaster on a fixed track.</dd>
+
+  <dt>Vulnerability regret</dt>
+  <dd>Sharing something too deep in a space that wasn’t safe for it. Authentic is good; too vulnerable too fast is awkward and sometimes unsafe.</dd>
+
+  <dt>High-conflict person</dt>
+  <dd>From Bill Eddy’s work: roughly 10% of people. They thrive on drama, see in absolutes, weaponize emotion, and recruit selfless helpers to fight their battles.</dd>
+
+  <dt>Liking gap / signal amplification bias</dt>
+  <dd>You assume your liking is obvious. It isn’t. Say it out loud: “it’s always fun talking to you.” Being clearly liked makes people like you back.</dd>
+
+  <dt>Warmth then competence</dt>
+  <dd>About 82% of first impressions rest on two questions: can I trust you, and can I rely on you? Competence without warmth reads as suspicious.</dd>
+
+  <dt>Maximum resonance point</dt>
+  <dd>The low, relaxed end of your natural vocal range, spoken on the out-breath. Signals calm and pride. Tight, high, fast speech signals anxiety.</dd>
+
+  <dt>Lower lid flex</dt>
+  <dd>A listener narrowing their eyes at you. Not positive or negative — intense focus on what you just said. Bookmark it.</dd>
+
+  <dt>Open fish</dt>
+  <dd>Someone’s mouth opening slightly while you talk. They want a turn.</dd>
+
+  <dt>Peak-end effect</dt>
+  <dd>People remember the peak of a conversation and how it ended, yet most of us only prepare the opening.</dd>
+</dl>
+
+<h2 id="archetypes">Five archetypes</h2>
+<p>Fluid stories people tell about themselves right now, not fixed personality types. Each shapes how someone works, bonds, and what they want to talk about.</p>
+<ul class="archetypes">
+  <li><strong>Ambitious hero</strong><span>Obstacles overcome through grit. Never satisfied, prone to shiny-object syndrome and burnout. Wants to talk progress, goals, growth.</span></li>
+  <li><strong>Contented pragmatist</strong><span>Happy with things as they are. Loves ritual, tradition, savoring. Reads as unambitious; often a good counterweight to the hero. Don’t push.</span></li>
+  <li><strong>Selfless helper</strong><span>Worth comes from giving. Struggles with boundaries, attracts takers. Tell them that sharing about themselves is a gift to you, not a withdrawal.</span></li>
+  <li><strong>Creative disruptor</strong><span>Hates rules, wants to break and rebuild. Great for sharpening ideas, exhausting when you need support. Expect the challenge.</span></li>
+  <li><strong>Unlucky struggler</strong><span>Contamination narrative. Feels stuck, overlooked, misunderstood. Often funny and humble. Don’t try to argue them into feeling lucky — get curious instead.</span></li>
+</ul>
+<details>
+  <summary>How to find someone’s archetype</summary>
+  <p>Ask what character they’re most like and why, whether they feel lucky, or what their memoir would be called. Listen for narrative hints. If you can’t place yourself, describe your role, personality, and values to an AI and ask which character fits.</p>
+</details>
+
+<h2 id="mechanics">Mechanics</h2>
+<h3>Turn length</h3>
+<p>Ideal turns run 15–30 seconds. 45 is the ceiling before it becomes a monologue. Under 15 and you may be creating scarcity. Review a recorded Zoom call and time yourself.</p>
+
+<h3>Do you talk too much?</h3>
+<p>Answer “often” to three or more and you’re probably an over-talker. Every item is secretly asking whether you’re curious enough.</p>
+<ol>
+  <li>I leave conversations realizing I don’t know much about the other person.</li>
+  <li>After I finish speaking, people nod politely but don’t respond.</li>
+  <li>I tell long, detailed stories, especially when people are too polite to interrupt.</li>
+  <li>I’ve been told I talk a lot.</li>
+  <li>Mid-story, I notice people glancing around the room.</li>
+</ol>
+<p><strong>Yap challenge:</strong> record yourself answering a prompt with no notes. 15–30 seconds is healthy; over a minute is a flag.</p>
+
+<h3>Eye contact</h3>
+<p>Aim for 60–70%, heaviest at the greeting (oxytocin) and when delivering a point (to read the reaction). Less while thinking — the brain can’t process complex thought and hold eye contact at the same time.</p>
+
+<h3>Listening cues</h3>
+<p>Nodding, a head tilt (exposes the ear — a universal warmth signal), leaning in, and the lower lid flex. Listening is about warmth, and being dynamic in response to the cues you get back is the underrated half of conversation.</p>
+
+<h3>Charisma, stripped down</h3>
+<ul>
+  <li>Be easy to talk to. Put people at ease before you try to impress them.</li>
+  <li>Broadcast liking clearly.</li>
+  <li>Signal warmth first, then competence.</li>
+  <li>Take up a little more physical space: shoulders down, head up.</li>
+  <li>Speak on the out-breath.</li>
+  <li>Trying to be impressive creates distance. Vulnerability makes you the easiest person in the room to approach.</li>
+</ul>
+
+<h2 id="exit">Ending a conversation</h2>
+<p class="formula">Future cue + compliment or stated action.</p>
+<ol>
+  <li>Ask about or mention something coming up for them. It shifts the brain to “later.”</li>
+  <li>Close with a compliment or an action, in a closing tone: “It was so good talking to you — I’m going to grab a coffee.”</li>
+  <li>Pair it with a step back and a turn toward the door.</li>
+</ol>
+<p>Be assertive. A lingering, mumbled ending is the worst last impression.</p>
+
+<div class="aside">
+  <p><strong>Team habit:</strong> open weekly meetings with “tell me something good” — a fast round where everyone shares one win. It time-boxes good level-one conversation and removes friction for the rest of the meeting.</p>
+</div>
+
+</main>
+
+<footer>
+  <p>Notes compiled from <em>The Diary of a CEO</em>, episode with Vanessa Van Edwards. Framework by Dan McAdams; high-conflict personality research by Bill Eddy; luck research by Richard Wiseman.</p>
+</footer>
+
+</body>
+</html>
